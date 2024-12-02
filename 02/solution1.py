@@ -11,11 +11,10 @@ def is_report_safe(report: List[int]) -> bool:
     else:
         levels = reversed(report)
 
-    # Checks if two adjacent levels are safe.
-    def is_safe(lvl1, lvl2):
-        return lvl1 < lvl2 and lvl2 - lvl1 <= 3
-
     # Check if all adjacent levels are safe.
     return all(is_safe(lvl1, lvl2) for lvl1, lvl2 in pairwise(levels))
     
+# Checks if two adjacent levels are safe.
+def is_safe(lvl1, lvl2):
+    return lvl1 < lvl2 and lvl2 - lvl1 <= 3
     
