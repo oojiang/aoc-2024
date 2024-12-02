@@ -1,4 +1,6 @@
-def similarity_score(list1: [int], list2: [int]) -> int:
+from typing import List
+
+def similarity_score(list1: List[int], list2: List[int]) -> int:
     # count the number of appearances of each number in list2
     counts = {}
     for i in list2:

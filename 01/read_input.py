@@ -1,4 +1,6 @@
-def read_input(filename: str = "input"):
+from typing import List, Tuple
+
+def read_input(filename: str = "input") -> Tuple[List[int], List[int]]:
     list1 = []
     list2 = []
     with open(filename, 'r') as file:

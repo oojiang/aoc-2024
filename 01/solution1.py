@@ -1,4 +1,6 @@
-def total_distance(list1: [int], list2: [int]) -> int:
+from typing import List
+
+def total_distance(list1: List[int], list2: List[int]) -> int:
     assert(len(list1) == len(list2))
 
     # sort the lists
