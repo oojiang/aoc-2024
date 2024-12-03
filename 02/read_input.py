@@ -1,4 +1,6 @@
-def read_input(filename: str = "input") -> [[int]]:
+from typing import List
+
+def read_input(filename: str = "input") -> List[List[int]]:
     reports = []
     with open(filename, 'r') as file:
         for line in file:
