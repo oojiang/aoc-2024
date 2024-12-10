@@ -1,4 +1,3 @@
-from typing import List
 from data_types import AntennaMap
 
 def read_input(filename: str = "input") -> AntennaMap:
