@@ -17,4 +17,15 @@ def read_input(filename: str = "input") -> List[Tuple[
             ))
     return robots
 
-        
+def print_robots(robots, rdim, cdim):
+    photo = [['.' for _ in range(cdim)] for _ in range(rdim)]
+    for robot in robots:
+        (xpos, ypos), _ = robot
+        if photo[ypos][xpos] == '.':
+            photo[ypos][xpos] = 0
+        photo[ypos][xpos] += 1
+
+    for row in photo:
+        for square in row:
+            print(square, end='')
+        print()
