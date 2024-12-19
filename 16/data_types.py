@@ -42,6 +42,16 @@ class Direction(Enum):
         else:
             return Direction.DOWN
 
+    def turn_around(self):
+        if self == Direction.UP:
+            return Direction.DOWN
+        elif self == Direction.DOWN:
+            return Direction.UP
+        elif self == Direction.LEFT:
+            return Direction.RIGHT
+        else:
+            return Direction.LEFT
+
     def move(self, coor: Coor) -> Coor:
         r = coor[0] + self.vec[0]
         c = coor[1] + self.vec[1]
