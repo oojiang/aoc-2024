@@ -64,20 +64,13 @@ directional_keypad = Keypad([
     ['<','v','>'],
 ])
 
-def get_shortest_keypress_sequence(numeric_code: str) -> str:
-    # directional_code_0 (used by robot)
-    key_press_candidates_0 = get_keypress_candidates(numeric_keypad, numeric_code)
-    code_candidates_0 = keypress_to_code_candidates(key_press_candidates_0)
-
-    # directional_code_1 (used by robot)
-    key_press_candidates_1 = get_keypress_candidates(directional_keypad, code_candidates_0)
-    code_candidates_1 = keypress_to_code_candidates(key_press_candidates_1)
-
-    # directional_code_2 (used by me)
-    key_press_candidates_2 = get_keypress_candidates(directional_keypad, code_candidates_1)
-    code_candidates_2 = keypress_to_code_candidates(key_press_candidates_2)
-
-    return get_shortest_code(code_candidates_2)
+def get_shortest_keypress_sequence(numeric_code: str, num_robot_directional_keypads) -> str:
+    key_press_candidates = get_keypress_candidates(numeric_keypad, numeric_code)
+    code_candidates = keypress_to_code_candidates(key_press_candidates)
+    for _ in range(num_robot_directional_keypads):
+        key_press_candidates = get_keypress_candidates(directional_keypad, code_candidates)
+        code_candidates = keypress_to_code_candidates(key_press_candidates)
+    return get_shortest_code(code_candidates)
 
 def get_shortest_code(code: CodeCandidates) -> str:
     if isinstance(code, str):
@@ -109,9 +102,7 @@ def get_keypress_candidates(keypad: Keypad, code: CodeCandidates) -> KeypressCan
 
         return sequence_segments
     else:
-        return [
-            get_keypress_candidates(keypad, sub_code) for sub_code in code
-        ]
+        return [get_keypress_candidates(keypad, sub_code) for sub_code in code]
 
 def get_keypress_candidates_for_next_button(keypad: Keypad, current: Coord, target: Coord) -> KeypressCandidates:
     sequences = []
@@ -130,14 +121,14 @@ def get_keypress_candidates_for_next_button(keypad: Keypad, current: Coord, targ
     queue.append((current, ()))
     
     while queue:
-        current, path = queue.pop()
+        current_, path = queue.pop()
 
-        if current == target:
+        if current_ == target:
             sequences.append(list(path + (Keypress.ACTIVATE,)))
         else:
             for keypress in allowed_keypresses:
-                if keypad.can_move(current, keypress):
-                    next_current = keypad.move(current, keypress)
+                if keypad.can_move(current_, keypress):
+                    next_current = keypad.move(current_, keypress)
                     queue.append((next_current, path + (keypress,)))
         
     return sequences

@@ -6,7 +6,7 @@ test_codes = read_input("input1")
 codes = read_input()
 
 def solution1(codes: List[str]) -> int:
-    sequences = [get_shortest_keypress_sequence(code) for code in codes]
+    sequences = [get_shortest_keypress_sequence(code, 2) for code in codes]
     
     return sum(int(codes[i][:-1]) * len(sequences[i]) for i in range(len(codes)))
 
