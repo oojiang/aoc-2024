@@ -1,4 +1,3 @@
-from os import wait
 from state import read_input_2
 
 branches = read_input_2('input')
