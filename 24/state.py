@@ -24,3 +24,24 @@ def read_input(filename: str = "input"):
                     'XOR': Xor,
                 }[gate_type](name, left, right)
     return Gate.gates
+
+def read_input_2(filename: str = "input"):
+    branching = False
+
+    branches = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if not line.strip():
+                branching = True
+                continue
+            elif not branching:
+                continue
+
+            parsed = line.strip().split(' ')
+            op0 = parsed[0]
+            command = parsed[1]
+            op1 = parsed[2]
+            result = parsed[4]
+
+            branches.append((command, op0, op1, result))
+    return branches
