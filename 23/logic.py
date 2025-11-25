@@ -1,5 +1,14 @@
-def find_triplets(connections):
+from collections import deque
+
+def get_computers(connections):
     computers = set()
+    for comp0, comp1 in connections:
+        computers.add(comp0)
+        computers.add(comp1)
+    return sorted(computers)
+
+
+def get_adjacency(connections):
     adjacency = {}
     for comp0, comp1 in connections:
         adjacency[comp0] = adjacency.get(comp0, set())
@@ -7,10 +16,11 @@ def find_triplets(connections):
         adjacency[comp0].add(comp1)
         adjacency[comp1].add(comp0)
 
-        computers.add(comp0)
-        computers.add(comp1)
+    return adjacency
 
-    comp_list = list(computers)
+def find_triplets(connections):
+    adjacency = get_adjacency(connections)
+    comp_list = get_computers(connections)
     triplets = set()
     for i in range(len(comp_list)):
         for j in range(i + 1, len(comp_list)):
@@ -28,3 +38,30 @@ def filter_for_chief(triplets):
         lambda triplet: any(comp[0] == 't' for comp in triplet),
         triplets
     ))
+
+def max_connected(connections):
+    computers = get_computers(connections)
+    adjacency = get_adjacency(connections)
+
+    available = set(computers)
+    current = set()
+    best = set()
+    def dfs(comp):
+        nonlocal best
+        if comp not in available:
+            return
+        available.remove(comp)
+
+        if all(comp1 in adjacency[comp] for comp1 in current):
+            current.add(comp)
+            if len(current) > len(best):
+                best = set(current)
+            for comp2 in adjacency[comp].intersection(available):
+                dfs(comp2)
+            current.remove(comp)
+
+    for i, comp in enumerate(computers):
+        available = set(computers[i:])
+        dfs(comp)
+
+    return sorted(best)
